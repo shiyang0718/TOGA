@@ -1,0 +1,9 @@
+
+_target_: datasets.MOSI_dataset.MOSI_Dataset
+name: MOSI
+data_dir: ./datasets
+mode: train
+eval_split: valid
+input_d_t: 768
+input_d_a: 5
+input_d_v: 20

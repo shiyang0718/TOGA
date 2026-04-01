@@ -1,0 +1,9 @@
+# cfgs/dataset/MOSEI.yaml
+_target_: datasets.MOSEI_dataset.MOSEI_Dataset
+name: MOSEI
+data_dir: ./datasets
+mode: train
+eval_split: valid
+input_d_t: 768
+input_d_a: 74
+input_d_v: 35

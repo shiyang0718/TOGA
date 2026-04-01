@@ -1,0 +1,139 @@
+defaults:
+  - _self_
+  - dataset: MOSI
+  - optimizer: AdmaW
+  - scheduler: step_decay
+  - methods: OGM
+
+input_d_t: ${dataset.input_d_t}
+input_d_a: ${dataset.input_d_a}
+input_d_v: ${dataset.input_d_v}
+
+train: true
+val: true
+tensorboard: true
+
+method: navie
+
+n_epochs: 40
+val_freq: 1
+random_seed: 42
+
+device: cuda
+gpu_device: [0]
+
+result_path: ./exp_result/${dataset.name}/${method}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+ckpt_path: ""
+
+batch_size: 32
+n_threads: 0
+
+lr: 1e-4
+loss_type: smoothl1
+loss_beta: 1.0
+
+
+embed_dim: 128
+p_exe: 0.5
+
+use_hook_modulation: true
+
+perf_mode: exp
+perf_alpha: 1.0
+
+strong_backoff: false
+strong_lambda: 0.1
+strong_smin: 0.9
+strong_w_mode: softmax
+strong_k_mode: soft
+
+strong_curriculum_epochs: 20
+warmup_epochs: 5
+
+# tau schedule
+strong_tau: 0.5
+strong_tau_mode: fixed
+strong_tau_min: 0.3
+strong_tau_max: 2.0
+strong_tau_dir: down
+
+strong_tau_alpha_p: 0.35
+strong_tau_p_stat: range
+strong_tau_debug: true
+
+use_perf_gate: false
+perf_gate_start_epoch: 6
+perf_gate_r_th: 0.5
+perf_gate_use_w: true
+perf_gate_use_k: true
+perf_gate_k_floor: 0.2
+perf_gate_apply_to: "tav"
+perf_gate_min_keep: 1
+perf_gate_debug: false
+
+att_num: miss
+att_type: t
+att_ration: 0.0
+
+
+curriculum_missing: false
+missing_start_epoch: 8
+missing_end_epoch: 20
+missing_type: t
+missing_r_start: 0.1
+missing_r_end: 0.5
+missing_schedule: linear
+
+enable_val_miss: false
+val_miss_start_epoch: 8
+val_miss_all_epochs: false
+val_missing_r: 0.3
+
+enable_val_noise: false
+val_noise_std: 0.2
+val_noise_type: av
+
+enable_val_miss_noise: false
+val_miss_noise_start_epoch: 8
+
+att_eval: false
+eval_att_num: miss
+eval_att_type: t
+eval_att_ration: 0.0
+
+use_gmml_lp: false
+lambda_p: 25
+lambda_weak_ratio: 1.0
+lp_on_modules: ["text_net", "audio_net", "visual_net", "fusion_model.fxy"]
+
+lp_missing_only: true
+lp_enable_epoch: -1
+lp_ramp_epochs: 3
+lp_head_ratio: 0.3
+lp_debug: true
+
+# Lp ablation toggles
+lp_apply_to_encoders: true
+lp_apply_to_head: true
+lp_head_only: false
+
+track_update_mag: true
+update_mag_log_interval: 10
+update_mag_on_modules: "text_net,audio_net,visual_net,fusion_model.fxy"
+
+ogm_paper_baseline: false
+ogm_alpha: 8.0
+ogm_k_min: 0.0
+ogm_conf_mode: inv_loss
+
+
+use_perf_prev_smooth: true
+perf_prev_alpha: 0.5
+
+hydra:
+  run:
+    dir: ${result_path}
+  sweep:
+    dir: ${result_path}
+    subdir: ${hydra.job.num}
+

@@ -1,0 +1,4 @@
+# @package methods
+method: navie
+fusion_method: Concat
+rho: 2.0

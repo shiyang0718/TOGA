@@ -1,0 +1,8 @@
+_target_: datasets.SIMS_dataset.SIMS_Dataset
+name: SIMS
+data_dir: ./datasets
+mode: train
+eval_split: valid
+input_d_t: 768
+input_d_a: 33
+input_d_v: 709

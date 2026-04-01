@@ -1,0 +1,7 @@
+# @package optimizer
+_target_: torch.optim.AdamW
+lr: ${lr}
+betas: [0.9, 0.999]  # default AdamW betas
+eps: 1e-8            # default epsilon value
+
+weight_decay: 1e-4  # weight decay coefficient
